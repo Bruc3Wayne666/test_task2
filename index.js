@@ -29,7 +29,7 @@ app.use(cookieParser())
 //     }
 // })
 
-app.use('/', router)
+app.use('/api', router)
 
 const serve = () => {
     mongoose.connect(process.env.MONGODB_URL, {
