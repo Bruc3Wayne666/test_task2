@@ -16,6 +16,8 @@ class PostController {
             const {user} = req
             const {img} = req.files
 
+            console.log(img)
+
             const newPost = await Post.create({
                 userId: user._id,
                 ...req.body,
