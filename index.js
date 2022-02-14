@@ -17,27 +17,27 @@ app.engine('.hbs', exphbs.engine({
 
 app.set('view engine', 'hbs')
 
-app.use('/images', express.static(path.join(__dirname, 'public/images')))
+app.use(express.static(path.join(__dirname, '/public')))
 
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, req.body.name)
-    }
-})
-
-const upload = multer({storage: storage})
-
-app.post('/upload', upload.single('file'), (req, res) => {
-    try {
-        return res.status(200).json("File uploaded successfully");
-    } catch (err) {
-        res.status(500).json({msg: err})
-    }
-})
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, req.body.name)
+//     }
+// })
+//
+// const upload = multer({storage: storage})
+//
+// app.post('/upload', upload.single('file'), (req, res) => {
+//     try {
+//         return res.status(200).json("File uploaded successfully");
+//     } catch (err) {
+//         res.status(500).json({msg: err})
+//     }
+// })
 
 app.use('/', router)
 

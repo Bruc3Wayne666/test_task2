@@ -2,10 +2,9 @@ const Router = require('express')
 const router = new Router()
 const authRouter = require('../router/authRouter')
 const postRouter = require('../router/postRouter')
+const postController = require('../controllers/postController')
 
-router.get('/', (req, res) => {
-    res.render('home')
-})
+router.get('/', postController.getAll)
 router.use('/auth', authRouter)
 router.use('/post', postRouter)
 

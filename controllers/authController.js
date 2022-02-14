@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 class AuthController {
     async register(req, res){
         try {
+            console.log(req.body)
             const {email, password} = req.body
             const user = await User.findOne({email: email})
             if (user) return res.status(400).json({msg: 'This user already exists'})
@@ -17,6 +18,11 @@ class AuthController {
             })
 
             const accessToken = createAccessToken({id: newUser._id})
+
+            res.cookie('accessToken', accessToken, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 24 * 1000
+            })
 
             res.status(200).json({
                 user: {
@@ -40,6 +46,11 @@ class AuthController {
             if (!isMatch) return res.status(400).json({msg: 'Wrong password'})
 
             const accessToken = createAccessToken({id: user._id})
+
+            res.cookie('accessToken', accessToken, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 24 * 1000
+            })
 
             res.status(200).json({
                 user: {

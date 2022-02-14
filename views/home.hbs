@@ -1,1 +1,20 @@
-<h1>Hello world</h1>
+<div class="posts">
+    <ul class="list-group">
+        {{#each posts}}
+            <li class="list-group-item">{{this.text}}</li>
+        {{/each}}
+    </ul>
+    <div>
+        <form action="#" method="post">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Image</label>
+                <input type="file" class="form-control" name="img">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Text</label>
+                <input type="text" class="form-control" name="text">
+            </div>
+            <button type="submit" class="btn btn-primary">Create Post</button>
+        </form>
+    </div>
+</div>
