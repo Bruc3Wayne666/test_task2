@@ -6,8 +6,16 @@ const cookieParser = require('cookie-parser')
 const router = require('./router/router')
 const multer = require("multer");
 const path = require("path");
+const exphbs = require('express-handlebars');
 
 const app = express()
+
+app.engine('.hbs', exphbs.engine({
+    defaultLayout: 'main',
+    extname: '.hbs'
+}))
+
+app.set('view engine', 'hbs')
 
 app.use('/images', express.static(path.join(__dirname, 'public/images')))
 

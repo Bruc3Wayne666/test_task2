@@ -3,9 +3,8 @@ const router = new Router()
 const authRouter = require('../router/authRouter')
 const postRouter = require('../router/postRouter')
 
-
 router.get('/', (req, res) => {
-    return '<h1>Hello</h1>'
+    res.render('home')
 })
 router.use('/auth', authRouter)
 router.use('/post', postRouter)
