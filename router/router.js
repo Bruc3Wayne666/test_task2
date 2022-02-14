@@ -4,7 +4,7 @@ const authRouter = require('../router/authRouter')
 const postRouter = require('../router/postRouter')
 
 
-router.use('/', (req, res) => {
+router.get('/', (req, res) => {
     return '<h1>Hello</h1>'
 })
 router.use('/auth', authRouter)
