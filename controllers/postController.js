@@ -5,10 +5,7 @@ class PostController {
     async getAll(req, res) {
         try {
             const posts = await Post.find({})
-            // res.status(200).json(posts)
-            res.render('home', {
-                posts: posts.map(post => post.toJSON()), // как обычно mongo делает сюрпризы
-            })
+            res.status(200).json(posts)
         } catch (err) {
             res.status(500).json({msg: err.message})
         }
