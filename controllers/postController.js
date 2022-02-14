@@ -14,18 +14,36 @@ class PostController {
     async create(req, res) {
         try {
             const {user} = req
+            const {img} = req.files
+
             const newPost = await Post.create({
                 userId: user._id,
-                ...req.body
+                ...req.body,
+                img: ''
             })
+
+            await img.mv(`./uploads/${newPost._id}.png`, err => {
+                if (err) return res.status(500).json({msg: err.message})
+            })
+
+            const imgUrl = newPost._id
+
+            const newPostDone = await Post.findOneAndUpdate({
+                _id: newPost._id
+            }, {
+                ...req.body,
+                img: imgUrl
+            }, {new: true})
+
+            console.log(newPostDone)
 
             const newUser = await User.findOneAndUpdate({
                 _id: user._id
             }, {
-                $push: {posts: newPost._id}
+                $push: {posts: newPostDone._id}
             }, {new: true})
 
-            res.status(200).json(newPost)
+            res.status(200).json(newPostDone)
         } catch (err) {
             res.status(500).json({msg: err.message})
         }

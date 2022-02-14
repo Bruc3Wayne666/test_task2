@@ -6,12 +6,14 @@ const cookieParser = require('cookie-parser')
 const router = require('./router/router')
 const multer = require("multer");
 const path = require("path");
+const upload = require('express-fileupload')
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
+app.use(upload())
 
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
