@@ -11,26 +11,12 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
+app.use('/images', express.static(path.join(__dirname, 'uploads')))
+
 app.use(bodyParser())
 app.use(cors())
 app.use(cookieParser())
 app.use(upload())
-
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, req.body.name)
-//     }
-// })
-//
-// const upload = multer({storage: storage})
-//
-// app.post('/upload', upload.single('file'), (req, res) => {
-//     try {
-//         return res.status(200).json("File uploaded successfully");
-//     } catch (err) {
-//         res.status(500).json({msg: err})
-//     }
-// })
 
 app.use('/api', router)
 
