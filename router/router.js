@@ -4,7 +4,6 @@ const authRouter = require('../router/authRouter')
 const postRouter = require('../router/postRouter')
 const postController = require('../controllers/postController')
 
-router.get('/', postController.getAll)
 router.use('/auth', authRouter)
 router.use('/post', postRouter)
 
