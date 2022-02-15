@@ -70,7 +70,7 @@ class PostController {
                 $pull: {posts: post._id}
             }, {new: true})
 
-            res.status(200).json({msg: 'Post deleted.'})
+            res.status(200).json(post)
         } catch (err) {
             res.status(500).json({msg: err.message})
         }
@@ -95,7 +95,7 @@ class PostController {
                 ...req.body
             })
 
-            res.status(200).json({msg: 'Post updated!'})
+            res.status(200).json(post)
         } catch (err) {
             res.status(500).json({msg: err.message})
         }
