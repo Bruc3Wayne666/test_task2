@@ -18,7 +18,7 @@ class PostController {
             const {user} = req
             const {img} = req.files
 
-            console.log(img)
+            // console.log(img)
 
             const newPost = await Post.create({
                 userId: user._id,
@@ -39,7 +39,7 @@ class PostController {
                 img: imgUrl
             }, {new: true})
 
-            console.log(newPostDone)
+            // console.log(newPostDone)
 
             const newUser = await User.findOneAndUpdate({
                 _id: user._id
@@ -78,13 +78,20 @@ class PostController {
     async edit(req, res) {
         try {
             const {id} = req.params
+            const {img} = req.files
             const {user} = req
+
             const post = await Post.findOneAndUpdate({
                 _id: id,
                 userId: user._id
             }, {
                 ...req.body
             })
+
+            await img.mv(`./uploads/${post._id}.png`, err => {
+                if (err) return res.status(500).json({msg: err.message})
+            })
+
             res.status(200).json({msg: 'Post updated!'})
         } catch (err) {
             res.status(500).json({msg: err.message})
