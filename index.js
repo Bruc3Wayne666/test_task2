@@ -11,7 +11,7 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
-app.use('/images', express.static(path.join(__dirname, 'uploads')))
+app.use('/images', express.static(path.join(__dirname, 'public/uploads')))
 
 app.use(bodyParser())
 app.use(cors())
