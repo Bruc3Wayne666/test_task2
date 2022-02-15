@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const router = require('./router/router')
-const multer = require("multer");
-const path = require("path");
-const upload = require('express-fileupload')
+// const multer = require("multer");
+// const path = require("path");
+// const upload = require('express-fileupload')
 const bodyParser = require('body-parser')
 
 const app = express()
@@ -16,7 +16,7 @@ const app = express()
 app.use(bodyParser())
 app.use(cors())
 app.use(cookieParser())
-app.use(upload())
+// app.use(upload())
 
 app.use('/api', router)
 
