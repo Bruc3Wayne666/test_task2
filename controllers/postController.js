@@ -29,7 +29,7 @@ class PostController {
 
             if (req.files) {
                 const {img} = req.files
-                await img.mv(`./uploads/${newPost._id}.png`, err => {
+                await img.mv(`./public/uploads/${newPost._id}.png`, err => {
                     if (err) return res.status(500).json({msg: err.message})
                 })
 
@@ -84,7 +84,7 @@ class PostController {
 
             if (req.files) {
                 const {img} = req.files
-                await img.mv(`./uploads/${id}.png`, err => {
+                await img.mv(`./public/uploads/${id}.png`, err => {
                     if (err) return res.status(500).json({msg: err.message})
                 })
             }
