@@ -23,25 +23,24 @@ class PostController {
 
             let newPost = await Post.create({
                 userId: user._id,
-                ...req.body,
-                img: ''
+                ...req.body
             })
 
-            if (req.files) {
-                const {img} = req.files
-                await img.mv(`./public/uploads/${newPost._id}.png`, err => {
-                    if (err) return res.status(500).json({msg: err.message})
-                })
-
-                const imgUrl = newPost._id
-
-                newPost = await Post.findOneAndUpdate({
-                    _id: newPost._id
-                }, {
-                    ...req.body,
-                    img: imgUrl
-                }, {new: true})
-            }
+            // if (req.files) {
+            //     const {img} = req.files
+            //     await img.mv(`./public/uploads/${newPost._id}.png`, err => {
+            //         if (err) return res.status(500).json({msg: err.message})
+            //     })
+            //
+            //     const imgUrl = newPost._id
+            //
+            //     newPost = await Post.findOneAndUpdate({
+            //         _id: newPost._id
+            //     }, {
+            //         ...req.body,
+            //         img: imgUrl
+            //     }, {new: true})
+            // }
 
             const newUser = await User.findOneAndUpdate({
                 _id: user._id
@@ -82,19 +81,18 @@ class PostController {
             const {id} = req.params
             const {user} = req
 
-            if (req.files) {
-                const {img} = req.files
-                await img.mv(`./public/uploads/${id}.png`, err => {
-                    if (err) return res.status(500).json({msg: err.message})
-                })
-            }
+            // if (req.files) {
+            //     const {img} = req.files
+            //     await img.mv(`./public/uploads/${id}.png`, err => {
+            //         if (err) return res.status(500).json({msg: err.message})
+            //     })
+            // }
 
             const post = await Post.findOneAndUpdate({
                 _id: id,
                 userId: user._id
             }, {
-                ...req.body,
-                img: id
+                ...req.body
             })
 
             res.status(200).json({msg: 'Post updated!'})
