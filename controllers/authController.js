@@ -6,7 +6,7 @@ class AuthController {
     async register(req, res){
         try {
             console.log(req.body)
-            const {email, password} = req.body
+            const {email, password, username} = req.body
             const user = await User.findOne({email: email})
             if (user) return res.status(400).json({msg: 'This user already exists'})
 
@@ -14,6 +14,7 @@ class AuthController {
 
             const newUser = await User.create({
                 email,
+                username,
                 password: hashedPassword
             })
 
