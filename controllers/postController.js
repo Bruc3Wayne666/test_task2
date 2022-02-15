@@ -6,6 +6,7 @@ class PostController {
         try {
             const posts = await Post.find({})
                 .populate('userId')
+                .select('-password')
             res.status(200).json(posts)
         } catch (err) {
             res.status(500).json({msg: err.message})
