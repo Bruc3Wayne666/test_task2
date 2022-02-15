@@ -5,7 +5,7 @@ class PostController {
     async getAll(req, res) {
         try {
             const posts = await Post.find({})
-                .populate('userId')
+                .populate('userId', '-password')
                 .select('-password')
             res.status(200).json(posts)
         } catch (err) {
