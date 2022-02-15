@@ -93,7 +93,7 @@ class PostController {
                 userId: user._id
             }, {
                 ...req.body
-            })
+            }, {new: true})
 
             res.status(200).json(post)
         } catch (err) {
