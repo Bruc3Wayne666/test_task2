@@ -10,8 +10,7 @@ class PostController {
                 limit: parseInt(_limit, 10),
                 page: parseInt(_page, 10),
             })
-                // .populate('userId', '-password')
-                // .select('-password')
+
             res.status(200).json(posts)
         } catch (err) {
             res.status(500).json({msg: err.message})
