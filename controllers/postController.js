@@ -4,9 +4,14 @@ const User = require('../models/userModel')
 class PostController {
     async getAll(req, res) {
         try {
-            const posts = await Post.find({})
-                .populate('userId', '-password')
-                .select('-password')
+            const {_page, _limit} = req.query
+            const posts = await Post.paginate({}, {
+                populate: 'userId',
+                limit: parseInt(_limit, 10),
+                page: parseInt(_page, 10),
+            })
+                // .populate('userId', '-password')
+                // .select('-password')
             res.status(200).json(posts)
         } catch (err) {
             res.status(500).json({msg: err.message})
@@ -16,38 +21,36 @@ class PostController {
     async create(req, res) {
         try {
             const {user} = req
-            const {img} = req.files
 
-            // console.log(img)
-
-            const newPost = await Post.create({
+            let newPost = await Post.create({
                 userId: user._id,
                 ...req.body,
                 img: ''
             })
 
-            await img.mv(`./uploads/${newPost._id}.png`, err => {
-                if (err) return res.status(500).json({msg: err.message})
-            })
+            if (req.files) {
+                const {img} = req.files
+                await img.mv(`./uploads/${newPost._id}.png`, err => {
+                    if (err) return res.status(500).json({msg: err.message})
+                })
 
-            const imgUrl = newPost._id
+                const imgUrl = newPost._id
 
-            const newPostDone = await Post.findOneAndUpdate({
-                _id: newPost._id
-            }, {
-                ...req.body,
-                img: imgUrl
-            }, {new: true})
-
-            // console.log(newPostDone)
+                newPost = await Post.findOneAndUpdate({
+                    _id: newPost._id
+                }, {
+                    ...req.body,
+                    img: imgUrl
+                }, {new: true})
+            }
 
             const newUser = await User.findOneAndUpdate({
                 _id: user._id
             }, {
-                $push: {posts: newPostDone._id}
+                $push: {posts: newPost._id}
             }, {new: true})
 
-            res.status(200).json(newPostDone)
+            res.status(200).json(newPost)
         } catch (err) {
             res.status(500).json({msg: err.message})
         }
@@ -78,18 +81,21 @@ class PostController {
     async edit(req, res) {
         try {
             const {id} = req.params
-            const {img} = req.files
             const {user} = req
+
+            if (req.files) {
+                const {img} = req.files
+                await img.mv(`./uploads/${id}.png`, err => {
+                    if (err) return res.status(500).json({msg: err.message})
+                })
+            }
 
             const post = await Post.findOneAndUpdate({
                 _id: id,
                 userId: user._id
             }, {
-                ...req.body
-            })
-
-            await img.mv(`./uploads/${post._id}.png`, err => {
-                if (err) return res.status(500).json({msg: err.message})
+                ...req.body,
+                img: id
             })
 
             res.status(200).json({msg: 'Post updated!'})
